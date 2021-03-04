@@ -116,7 +116,7 @@ classdef TrustRegConicSearch < AbstractMethod
         end
         
         
-        function [xmin, fmin, neval] = optimizationResult(self)
+        function [coordinates, neval] = optimizationResult(self)
             xmin = self.x1;
             fmin = self.objectiveFunc.f(xmin);
             neval = self.iteration;

@@ -34,15 +34,14 @@ classdef TrustRegSearch < AbstractMethod
         end
         
         function self = optimizationStep(self)
+            if iteration > 1
+                self.x0 = self.coordinares[end]
+            
+            end
             % find coefficients for the model
             g0 = self.objectiveFunc.df(self.x0);
             f0 = self.objectiveFunc.f(self.x0);
             self.fValue = f0;
-            
-            self.coordinates(self.iteration, :) = self.x0;
-            self.functionValues(self.iteration) = self.fValue;
-            self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
-            % добавить про function nevals
             
             mod = @(p)(f0 + p'*g0 + 0.5*p'*self.B0*p); %model
             pmin = TrustRegSearch.doglegsearch(mod, g0, self.B0, self.delta, self.tol);
@@ -50,15 +49,15 @@ classdef TrustRegSearch < AbstractMethod
             
             %update x
             if rho > self.eta
-                self.x0 = self.x0 + pmin;
+                self.x1 = self.x0 + pmin;
                 self.dx = pmin;
         
                 %BFGS update
-                y = self.objectiveFunc.df(self.x0) - g0; 
+                y = self.objectiveFunc.df(self.x1) - g0; 
                 self.B0 = self.B0 + y*y'/(y'*pmin) - ...
                     (self.B0*pmin)*pmin'*self.B0'/(pmin'*self.B0*pmin);
             else
-                self.x0 = self.x0;
+                self.x1 = self.x0;
             end
             
             %update trust region radius
@@ -68,15 +67,15 @@ classdef TrustRegSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            % TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
+            TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
             self.iteration = self.iteration + 1;
         end
         
        
-        function [coordinates, functionValues, functionNevals] = optimizationResult(self)
-            coordinates = self.coordinates;
-            functionValues = self.functionValues;
-            functionNevals = self.functionNevals;
+        function [xmin, fmin, neval] = optimizationResult(self)
+            xmin = self.x1;
+            fmin = self.objectiveFunc.f(xmin);
+            neval = self.iteration;
         end
     end
     
