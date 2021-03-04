@@ -88,7 +88,7 @@ classdef TrustRegConicSearch < AbstractMethod
             
             mod = @(s)(f0 + (g0' * s)/(1 - h'*s) + (s'*H0*s)/(1 - h'*s)^2); %model от s
             mods = @(x)(mod(x - self.x0)); % model от x
-            pmin = TrustRegSearch.doglegsearch(mods, g0, self.B0, self.delta, self.tol);
+            pmin = TrustRegSearch.doglegsearch(mods, g0, H0, self.delta, self.tol);
             rho = (f0 - self.objectiveFunc.f(self.x0 + pmin))/(mods([0;0]) - mods(pmin));
             
             %update x
