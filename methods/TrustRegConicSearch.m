@@ -4,12 +4,13 @@ classdef TrustRegConicSearch < AbstractMethod
         delta, % initial radius 
         deltamax, % max radius 
         eta, 
+        deltas, % delta history
         B0; 
     end
     
     methods
-        function self = TrustRegConicSearch(funcClass, iterationMax, tol)
-            self = self@AbstractMethod(funcClass, iterationMax, tol);
+        function self = TrustRegConicSearch(funcClass, options)
+            self = self@AbstractMethod(funcClass, options);
             self.delta = 1;
             self.deltamax = 1;
             self.eta = 0.1;
@@ -21,28 +22,28 @@ classdef TrustRegConicSearch < AbstractMethod
         
         function self = optimizationInit(self)
             self.B0 = eye(2);
-            TrustRegionDeltaPlot.deltaDraw(self.x0(1), self.x0(2), self.delta);
         end
         
         function self = optimizationStep(self)
             % если x0 = x1, то conic step зациклится, в таком случае нужно
             % использовать стандартный trust region step
-            if self.x0 == self.x1
-                self = regularTrustRegionOptimizationStep(self);
-            else
+            if (self.iteration > 1) && (self.coordinates(end) ~= self.coordinates(end - 1))
                 self = conicOptimizationStep(self);
+            else
+                self = regularTrustRegionOptimizationStep(self);
             end
         end
         
         
         function self = regularTrustRegionOptimizationStep(self)
-            self.x0 = self.x1;
-            self.fValuePrev = self.fValue;
-            
             % find coefficients for the model
             g0 = self.objectiveFunc.df(self.x0);
             f0 = self.objectiveFunc.f(self.x0);
             self.fValue = f0;
+            
+            self.coordinates(self.iteration, :) = self.x0;
+            self.functionValues(self.iteration) = self.fValue;
+            self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
             
             mod = @(p)(f0 + p'*g0 + 0.5*p'*self.B0*p); %model
             pmin = TrustRegSearch.doglegsearch(mod, g0, self.B0, self.delta, self.tol);
@@ -50,15 +51,15 @@ classdef TrustRegConicSearch < AbstractMethod
             
             %update x
             if rho > self.eta
-                self.x1 = self.x0 + pmin;
+                self.x0 = self.x0 + pmin;
                 self.dx = pmin;
         
                 %BFGS update
-                y = self.objectiveFunc.df(self.x1) - g0; 
+                y = self.objectiveFunc.df(self.x0) - g0; 
                 self.B0 = self.B0 + y*y'/(y'*pmin) - ...
                     (self.B0*pmin)*pmin'*self.B0'/(pmin'*self.B0*pmin);
             else
-                self.x1 = self.x0;
+                self.x0 = self.x0;
             end
             
             %update trust region radius
@@ -68,21 +69,24 @@ classdef TrustRegConicSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
+            self.deltas(self.iteration) = self.delta;
+            % TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
             self.iteration = self.iteration + 1;
         end
         
         
         function self = conicOptimizationStep(self) 
-            xOld = self.x0;
-            self.x0 = self.x1;
-            self.fValuePrev = self.fValue;
+            xOld = self.coordinates(self.iteration - 1, :)';
             
             % find coefficients for the model
             g0 = self.objectiveFunc.df(self.x0);
             f0 = self.objectiveFunc.f(self.x0);
             H0 = self.objectiveFunc.hesF(self.x0);
             self.fValue = f0;
+            
+            self.coordinates(self.iteration, :) = self.x0;
+            self.functionValues(self.iteration) = self.fValue;
+            self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
             
             h = TrustRegConicSearch.findH(self.x0, xOld, self.objectiveFunc);
             
@@ -93,15 +97,15 @@ classdef TrustRegConicSearch < AbstractMethod
             
             %update x
             if rho > self.eta
-                self.x1 = self.x0 + pmin;
+                self.x0 = self.x0 + pmin;
                 self.dx = pmin;
         
                 %BFGS update
-                y = self.objectiveFunc.df(self.x1) - g0; 
+                y = self.objectiveFunc.df(self.x0) - g0; 
                 self.B0 = self.B0 + y*y'/(y'*pmin) - ...
                     (self.B0*pmin)*pmin'*self.B0'/(pmin'*self.B0*pmin);
             else
-                self.x1 = self.x0;
+                self.x0 = self.x0;
             end
             
             %update trust region radius
@@ -111,15 +115,24 @@ classdef TrustRegConicSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
+            self.deltas(self.iteration) = self.delta;
             self.iteration = self.iteration + 1;
         end
         
         
-        function [coordinates, neval] = optimizationResult(self)
-            xmin = self.x1;
-            fmin = self.objectiveFunc.f(xmin);
-            neval = self.iteration;
+        function [coordinates, functionValues, functionNevals] = optimizationResult(self)
+            coordinates = self.coordinates;
+            functionValues = self.functionValues;
+            functionNevals = self.functionNevals;
+        end
+        
+        
+        function drawPlots(self)
+            TrustRegionDeltaPlot.initiate(self.objectiveFunc);
+            TrustRegionDeltaPlot.draw(self.coordinates, self.deltas);
+
+            ConvergancePlot.initiate();
+            ConvergancePlot.draw(self.functionNevals, self.functionValues);
         end
     end
     

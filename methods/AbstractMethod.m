@@ -26,9 +26,9 @@ classdef AbstractMethod < handle
     end
     
     methods
-        function self = AbstractMethod(options)
+        function self = AbstractMethod(func, options)
             %ABSTRACTMETHOD Construct an instance of this class
-            self.objectiveFunc = options.funcCLass;
+            self.objectiveFunc = func;
             self.iterationMax = options.iterationMax;
             self.tol = options.tol;
             self.iteration = 1;

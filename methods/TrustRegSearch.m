@@ -16,10 +16,10 @@ classdef TrustRegSearch < AbstractMethod
         % funcClass - AbstractFunction class that contain function and grad
         % iterationMax - max count of iteration when alg stop
         % tol - tolerance, alg's convergance criteria
-        function self = TrustRegSearch(options)
+        function self = TrustRegSearch(func, options)
             %TRUSTREGSEARCH Construct an instance of this class
             % call superclass constructor
-            self = self@AbstractMethod(options);
+            self = self@AbstractMethod(func, options);
             self.delta = 1;
             self.deltamax = 1;
             self.eta = 0.1;
@@ -31,7 +31,6 @@ classdef TrustRegSearch < AbstractMethod
         
         function self = optimizationInit(self)
             self.B0 = eye(2);
-            % TrustRegionDeltaPlot.deltaDraw(self.x0(1), self.x0(2), self.delta);
         end
         
         function self = optimizationStep(self)
