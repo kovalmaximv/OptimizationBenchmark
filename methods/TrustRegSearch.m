@@ -7,7 +7,8 @@ classdef TrustRegSearch < AbstractMethod
     properties
         delta, % initial radius
         deltamax, % max radius
-        eta, 
+        eta,
+        deltas, % delta history
         B0; 
     end
     
@@ -15,10 +16,10 @@ classdef TrustRegSearch < AbstractMethod
         % funcClass - AbstractFunction class that contain function and grad
         % iterationMax - max count of iteration when alg stop
         % tol - tolerance, alg's convergance criteria
-        function self = TrustRegSearch(funcClass, iterationMax, tol)
+        function self = TrustRegSearch(options)
             %TRUSTREGSEARCH Construct an instance of this class
             % call superclass constructor
-            self = self@AbstractMethod(funcClass, iterationMax, tol);
+            self = self@AbstractMethod(options);
             self.delta = 1;
             self.deltamax = 1;
             self.eta = 0.1;
@@ -68,6 +69,7 @@ classdef TrustRegSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
+            self.deltas(self.iteration) = self.delta;
             % TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
             self.iteration = self.iteration + 1;
         end
@@ -77,6 +79,15 @@ classdef TrustRegSearch < AbstractMethod
             coordinates = self.coordinates;
             functionValues = self.functionValues;
             functionNevals = self.functionNevals;
+        end
+        
+        
+        function drawPlots(self)
+            TrustRegionDeltaPlot.initiate(self.objectiveFunc);
+            TrustRegionDeltaPlot.draw(self.coordinates, self.deltas);
+
+            ConvergancePlot.initiate();
+            ConvergancePlot.draw(self.functionNevals, self.functionValues);
         end
     end
     

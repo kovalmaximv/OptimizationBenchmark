@@ -11,12 +11,15 @@ classdef ConvergancePlot
             ylim([0 1]);
         end
         
-        function draw(evalCount, storedEvalCound, fValue, fValuePrev)
+        function draw(evals, fValues)
             % draw line after optimization's loop step
             figure(2);
-            line([storedEvalCound, evalCount], ... 
-                [fValuePrev, fValue],'LineWidth',1,'Color','blue','Marker','s');
-            ylim([0 1]);
+            
+            for i = 1 : size(evals, 2) - 1
+                line([evals(i), evals(i + 1)], ... 
+                    [fValues(i), fValues(i + 1)],'LineWidth',1,'Color','blue','Marker','s');
+                ylim([0 1]);
+            end
         end
     end
 end

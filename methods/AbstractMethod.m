@@ -1,4 +1,4 @@
-classdef AbstractMethod
+classdef AbstractMethod < handle
     % ABSTRACTMETHOD Abstract class that all real methods must extend 
     
     properties
@@ -11,7 +11,8 @@ classdef AbstractMethod
         fValue, % current func value
         coordinates, % history of coordinates
         functionValues, % history of function values
-        functionNevals; % history of function nevals
+        functionNevals, % history of function nevals
+        shouldDrawPlots;
     end
     
     methods(Abstract)
@@ -25,13 +26,14 @@ classdef AbstractMethod
     end
     
     methods
-        function self = AbstractMethod(funcCLass, iterationMax, tol)
+        function self = AbstractMethod(options)
             %ABSTRACTMETHOD Construct an instance of this class
-            self.objectiveFunc = funcCLass;
-            self.iterationMax = iterationMax;
-            self.tol = tol;
+            self.objectiveFunc = options.funcCLass;
+            self.iterationMax = options.iterationMax;
+            self.tol = options.tol;
             self.iteration = 1;
             self.dx = realmax;
+            self.shouldDrawPlots = options.shouldDrawPlots;
         end
         
         % x0 - starting point
@@ -44,6 +46,17 @@ classdef AbstractMethod
             end
             
             [coordinates, functionValues, functionNevals] = self.optimizationResult();
+            if self.shouldDrawPlots
+                self.drawPlots();
+            end
+        end
+        
+        function drawPlots(self)
+            TraectoryPlot.initiate(self.objectiveFunc);
+            TraectoryPlot.draw(self.coordinates, self.deltas);
+
+            ConvergancePlot.initiate();
+            ConvergancePlot.draw(self.funNevals, self.funValues);
         end
     end
 end
