@@ -1,8 +1,23 @@
-classdef TraectoryPlot
+classdef TraectoryPlot < handle
     % Traectory plot draw traectory of optimization
     
-    methods(Static)        
-        function draw(coordinates)
+    properties
+        currentDescription, % current plot description
+        currentColor, % current color
+        descriptionArray, % array of descriptions for method plots
+        colorArray, % array of colors for method plots
+        plotCount; % count of methods on one plot
+    end
+    
+    methods 
+        function self = TraectoryPlot()
+            self.plotCount = 0;
+            self.descriptionArray = [""];
+            self.colorArray = [""];
+        end
+        
+        
+        function draw(self, coordinates)
             % draws first blue point of traectory
             figure(1);
             x0 = coordinates(1, :);
@@ -13,7 +28,7 @@ classdef TraectoryPlot
             for i = 1 : size(coordinates, 1) - 1
                 x0 = coordinates(i, :);
                 x1 = coordinates(i + 1, :);
-                line([x0(1) x1(1)],[x0(2) x1(2)],'LineWidth',1,'Color','blue','Marker','s');
+                self.lines = line([x0(1) x1(1)],[x0(2) x1(2)],'LineWidth',1,'Color', self.currentColor,'Marker','s');
             end
              
             % draws red dot when optimization finished
@@ -22,7 +37,8 @@ classdef TraectoryPlot
             scatter(x1(1),x1(2),'ro','MarkerFaceColor',[1 0 0]);
         end
         
-        function initiate(abstractFunction)
+        function initiate(self, abstractFunction, parameters)
+            self.setParameters(parameters);
             % настраиваем оси x и y
             x1 = (-5:0.1:5); m = length(x1);
             y1 = (-5:0.1:5); n = length(y1);
@@ -59,6 +75,29 @@ classdef TraectoryPlot
             ylabel('$y$','interpreter','latex','FontSize',13);
             set(1,'position',[100 30 660 600]);
             set(gca,'TickLabelInterpreter','latex','FontSize',11);
+        end
+        
+        function drawLegend(self)
+            figure(1);
+            h = zeros(self.plotCount);
+            
+            for i = 1 : self.plotCount
+                h(i) = plot(NaN, NaN, self.colorArray(i), 'Marker', 'o');
+            end
+            
+            legend(h([1:self.plotCount]), self.descriptionArray);
+        end
+    end
+    
+    methods(Access = private)
+        % parameters - struct. Fields: description, color.
+        function self = setParameters(self, parameters)
+            self.plotCount = self.plotCount + 1;
+            self.currentDescription = parameters.description;
+            self.currentColor = parameters.color;
+            
+            self.descriptionArray(self.plotCount) = self.currentDescription;
+            self.colorArray(self.plotCount) = self.currentColor;
         end
     end
 end

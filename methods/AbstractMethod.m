@@ -12,7 +12,8 @@ classdef AbstractMethod < handle
         coordinates, % history of coordinates
         functionValues, % history of function values
         functionNevals, % history of function nevals
-        shouldDrawPlots;
+        shouldDrawPlots,
+        trajectoryPlot;
     end
     
     methods(Abstract)
@@ -34,6 +35,7 @@ classdef AbstractMethod < handle
             self.iteration = 1;
             self.dx = realmax;
             self.shouldDrawPlots = options.shouldDrawPlots;
+            self.trajectoryPlot = options.trajectoryPlot;
         end
         
         % x0 - starting point

@@ -128,8 +128,10 @@ classdef TrustRegConicSearch < AbstractMethod
         
         
         function drawPlots(self)
-            TrustRegionDeltaPlot.initiate(self.objectiveFunc);
-            TrustRegionDeltaPlot.draw(self.coordinates, self.deltas);
+            options.description = 'TrustRegionConic';
+            options.color = 'red';
+            self.trajectoryPlot.initiate(self.objectiveFunc, options);
+            self.trajectoryPlot.draw(self.coordinates, self.deltas);
 
             ConvergancePlot.initiate();
             ConvergancePlot.draw(self.functionNevals, self.functionValues);

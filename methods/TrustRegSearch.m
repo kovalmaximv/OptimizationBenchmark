@@ -82,8 +82,10 @@ classdef TrustRegSearch < AbstractMethod
         
         
         function drawPlots(self)
-            TrustRegionDeltaPlot.initiate(self.objectiveFunc);
-            TrustRegionDeltaPlot.draw(self.coordinates, self.deltas);
+            options.description = 'TrustRegion';
+            options.color = 'blue';
+            self.trajectoryPlot.initiate(self.objectiveFunc, options);
+            self.trajectoryPlot.draw(self.coordinates, self.deltas);
 
             ConvergancePlot.initiate();
             ConvergancePlot.draw(self.functionNevals, self.functionValues);
