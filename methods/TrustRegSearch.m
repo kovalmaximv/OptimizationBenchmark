@@ -83,7 +83,7 @@ classdef TrustRegSearch < AbstractMethod
         
         function drawPlots(self)
             options.description = 'TrustRegion';
-            options.color = 'blue';
+            options.color = 'b';
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);
 

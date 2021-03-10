@@ -1,5 +1,5 @@
 him = AbstractFunction(@f_himmelblau, @df_himmelblau, @hes_himmelblau);
-trajectoryPlot = TrustRegionDeltaPlot();
+trajectoryPlot = TrustRegionDeltaPlot(0.1, 0.8);
 
 options.iterationMax = 10000;
 options.tol = 1e-3;

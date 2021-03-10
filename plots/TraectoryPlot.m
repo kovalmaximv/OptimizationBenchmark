@@ -6,11 +6,13 @@ classdef TraectoryPlot < handle
         currentColor, % current color
         descriptionArray, % array of descriptions for method plots
         colorArray, % array of colors for method plots
+        sleepTime, % sleep time between line drawing
         plotCount; % count of methods on one plot
     end
     
     methods 
-        function self = TraectoryPlot()
+        function self = TraectoryPlot(sleepTime)
+            self.sleepTime = sleepTime;
             self.plotCount = 0;
             self.descriptionArray = [""];
             self.colorArray = [""];
