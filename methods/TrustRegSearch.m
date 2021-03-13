@@ -13,9 +13,13 @@ classdef TrustRegSearch < AbstractMethod
     end
     
     methods
-        % funcClass - AbstractFunction class that contain function and grad
-        % iterationMax - max count of iteration when alg stop
-        % tol - tolerance, alg's convergance criteria
+        % func - AbstractFunction extended object
+        % options structures:
+        % - options.iterationMax
+        % - options.tol
+        % - options.shouldDrawPlots true - plot draws, false - dont
+        % - options.trajectoryPlot trajectoryPlot object
+        % - options.plotColor WARNING: only one letter color e.g.: b,r,g..
         function self = TrustRegSearch(func, options)
             %TRUSTREGSEARCH Construct an instance of this class
             % call superclass constructor
@@ -82,7 +86,7 @@ classdef TrustRegSearch < AbstractMethod
         
         
         function drawPlots(self)
-            options.description = 'TrustRegion';
+            options.description = strcat('TrustRegion,', num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);

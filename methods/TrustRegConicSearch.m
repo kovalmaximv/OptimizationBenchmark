@@ -9,6 +9,13 @@ classdef TrustRegConicSearch < AbstractMethod
     end
     
     methods
+        % func - AbstractFunction extended object
+        % options structures:
+        % - options.iterationMax
+        % - options.tol
+        % - options.shouldDrawPlots true - plot draws, false - dont
+        % - options.trajectoryPlot trajectoryPlot object
+        % - options.plotColor WARNING: only one letter color e.g.: b,r,g..
         function self = TrustRegConicSearch(funcClass, options)
             self = self@AbstractMethod(funcClass, options);
             self.delta = 1;
@@ -128,7 +135,7 @@ classdef TrustRegConicSearch < AbstractMethod
         
         
         function drawPlots(self)
-            options.description = 'TrustRegionConic';
+            options.description = strcat('TrustRegionConic,', num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);

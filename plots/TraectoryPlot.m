@@ -24,7 +24,6 @@ classdef TraectoryPlot < handle
             figure(1);
             x0 = coordinates(1, :);
             scatter(x0(1),x0(2),'bs','MarkerFaceColor',[0 0 1]);
-            text(x0(1) + 0.2, x0(2) - 0.2, num2str(0),'FontSize',11,'interpreter','latex');
             
             % draws line from x0 to x1
             for i = 1 : size(coordinates, 1) - 1
@@ -35,7 +34,6 @@ classdef TraectoryPlot < handle
              
             % draws red dot when optimization finished
             x1 = coordinates(size(coordinates, 1), :);
-            text(x1(1) + 0.2, x1(2) - 0.2, num2str(size(coordinates, 1)),'FontSize',11,'interpreter','latex');
             scatter(x1(1),x1(2),'ro','MarkerFaceColor',[1 0 0]);
         end
         
