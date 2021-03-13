@@ -129,7 +129,7 @@ classdef TrustRegConicSearch < AbstractMethod
         
         function drawPlots(self)
             options.description = 'TrustRegionConic';
-            options.color = 'r';
+            options.color = self.plotColor;
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);
 

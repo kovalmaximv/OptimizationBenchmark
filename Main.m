@@ -5,6 +5,7 @@ options.iterationMax = 10000;
 options.tol = 1e-3;
 options.shouldDrawPlots = true;
 options.trajectoryPlot = trajectoryPlot;
+options.plotColor = 'r';
 
 x0 = [1;3];
 
@@ -12,6 +13,7 @@ trs = TrustRegConicSearch(him, options);
 [coordinates, funValues, funNevals] = trs.optimization(x0);
 
 
+options.plotColor = 'b';
 trs = TrustRegSearch(him, options);
 [coordinates1, funValues1, funNevals1] = trs.optimization(x0);
 

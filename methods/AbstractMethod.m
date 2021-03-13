@@ -13,7 +13,8 @@ classdef AbstractMethod < handle
         functionValues, % history of function values
         functionNevals, % history of function nevals
         shouldDrawPlots,
-        trajectoryPlot;
+        plotColor, % plot color for method
+        trajectoryPlot; % instance of TrajectoryPlot
     end
     
     methods(Abstract)
@@ -35,6 +36,7 @@ classdef AbstractMethod < handle
             self.iteration = 1;
             self.dx = realmax;
             self.shouldDrawPlots = options.shouldDrawPlots;
+            self.plotColor = options.plotColor;
             self.trajectoryPlot = options.trajectoryPlot;
         end
         
