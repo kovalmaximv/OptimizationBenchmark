@@ -51,6 +51,7 @@ classdef TrustRegConicSearch < AbstractMethod
             self.coordinates(self.iteration, :) = self.x0;
             self.functionValues(self.iteration) = self.fValue;
             self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
+            self.deltas(self.iteration) = self.delta;
             
             mod = @(p)(f0 + p'*g0 + 0.5*p'*self.B0*p); %model
             pmin = TrustRegSearch.doglegsearch(mod, g0, self.B0, self.delta, self.tol);
@@ -76,7 +77,6 @@ classdef TrustRegConicSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            self.deltas(self.iteration) = self.delta;
             % TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
             self.iteration = self.iteration + 1;
         end
@@ -94,6 +94,7 @@ classdef TrustRegConicSearch < AbstractMethod
             self.coordinates(self.iteration, :) = self.x0;
             self.functionValues(self.iteration) = self.fValue;
             self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
+            self.deltas(self.iteration) = self.delta;
             
             h = TrustRegConicSearch.findH(self.x0, xOld, self.objectiveFunc);
             
@@ -122,7 +123,6 @@ classdef TrustRegConicSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            self.deltas(self.iteration) = self.delta;
             self.iteration = self.iteration + 1;
         end
         

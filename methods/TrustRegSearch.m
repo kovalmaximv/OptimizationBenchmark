@@ -46,6 +46,7 @@ classdef TrustRegSearch < AbstractMethod
             self.coordinates(self.iteration, :) = self.x0;
             self.functionValues(self.iteration) = self.fValue;
             self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
+            self.deltas(self.iteration) = self.delta;
             % добавить про function nevals
             
             mod = @(p)(f0 + p'*g0 + 0.5*p'*self.B0*p); %model
@@ -72,7 +73,6 @@ classdef TrustRegSearch < AbstractMethod
                 self.delta = min([2*self.delta, self.deltamax]);
             end
             
-            self.deltas(self.iteration) = self.delta;
             % TrustRegionDeltaPlot.deltaDraw(self.x1(1), self.x1(2), self.delta);
             self.iteration = self.iteration + 1;
         end
