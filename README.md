@@ -1,4 +1,4 @@
 OptimizationBenchmark
 
 ToDo list:
-5) -
+6) function evaluations

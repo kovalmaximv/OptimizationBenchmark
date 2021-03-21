@@ -14,6 +14,7 @@ classdef AbstractMethod < handle
         functionNevals, % history of function nevals
         shouldDrawPlots,
         plotColor, % plot color for method
+        convergancePlot, % instance of ConvergancePlot
         trajectoryPlot; % instance of TrajectoryPlot
     end
     
@@ -38,6 +39,7 @@ classdef AbstractMethod < handle
             self.shouldDrawPlots = options.shouldDrawPlots;
             self.plotColor = options.plotColor;
             self.trajectoryPlot = options.trajectoryPlot;
+            self.convergancePlot = options.convergancePlot;
         end
         
         % x0 - starting point

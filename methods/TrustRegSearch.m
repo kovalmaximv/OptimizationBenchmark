@@ -91,8 +91,8 @@ classdef TrustRegSearch < AbstractMethod
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);
 
-            ConvergancePlot.initiate();
-            ConvergancePlot.draw(self.functionNevals, self.functionValues);
+            self.convergancePlot.initiate(options);
+            self.convergancePlot.draw(self.functionNevals, self.functionValues);
         end
     end
     

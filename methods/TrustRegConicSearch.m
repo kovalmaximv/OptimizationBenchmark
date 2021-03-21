@@ -1,12 +1,4 @@
-classdef TrustRegConicSearch < AbstractMethod
-    
-    properties
-        delta, % initial radius 
-        deltamax, % max radius 
-        eta, 
-        deltas, % delta history
-        B0; 
-    end
+classdef TrustRegConicSearch < TrustRegSearch
     
     methods
         % func - AbstractFunction extended object
@@ -17,18 +9,10 @@ classdef TrustRegConicSearch < AbstractMethod
         % - options.trajectoryPlot trajectoryPlot object
         % - options.plotColor WARNING: only one letter color e.g.: b,r,g..
         function self = TrustRegConicSearch(funcClass, options)
-            self = self@AbstractMethod(funcClass, options);
+            self = self@TrustRegSearch(funcClass, options);
             self.delta = 1;
             self.deltamax = 1;
             self.eta = 0.1;
-        end
-        
-        function outputArg = optimizationLoopCondition(self)
-            outputArg = ((norm(self.dx) >= self.tol) && (self.iteration < self.iterationMax));
-        end
-        
-        function self = optimizationInit(self)
-            self.B0 = eye(2);
         end
         
         function self = optimizationStep(self)
@@ -127,21 +111,14 @@ classdef TrustRegConicSearch < AbstractMethod
         end
         
         
-        function [coordinates, functionValues, functionNevals] = optimizationResult(self)
-            coordinates = self.coordinates;
-            functionValues = self.functionValues;
-            functionNevals = self.functionNevals;
-        end
-        
-        
         function drawPlots(self)
             options.description = strcat('TrustRegionConic,', num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);
 
-            ConvergancePlot.initiate();
-            ConvergancePlot.draw(self.functionNevals, self.functionValues);
+            self.convergancePlot.initiate(options);
+            self.convergancePlot.draw(self.functionNevals, self.functionValues);
         end
     end
     

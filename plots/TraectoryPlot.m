@@ -1,21 +1,9 @@
-classdef TraectoryPlot < handle
+classdef TraectoryPlot < AbstractPlot
     % Traectory plot draw traectory of optimization
-    
-    properties
-        currentDescription, % current plot description
-        currentColor, % current color
-        descriptionArray, % array of descriptions for method plots
-        colorArray, % array of colors for method plots
-        sleepTime, % sleep time between line drawing
-        plotCount; % count of methods on one plot
-    end
     
     methods 
         function self = TraectoryPlot(sleepTime)
-            self.sleepTime = sleepTime;
-            self.plotCount = 0;
-            self.descriptionArray = [""];
-            self.colorArray = [""];
+            self = self@AbstractPlot(sleepTime, 1);
         end
         
         
@@ -75,29 +63,6 @@ classdef TraectoryPlot < handle
             ylabel('$y$','interpreter','latex','FontSize',13);
             set(1,'position',[100 30 660 600]);
             set(gca,'TickLabelInterpreter','latex','FontSize',11);
-        end
-        
-        function drawLegend(self)
-            figure(1);
-            h = zeros(self.plotCount);
-            
-            for i = 1 : self.plotCount
-                h(i) = plot(NaN, NaN, self.colorArray(i), 'Marker', 'o');
-            end
-            
-            legend(h([1:self.plotCount]), self.descriptionArray);
-        end
-    end
-    
-    methods(Access = private)
-        % parameters - struct. Fields: description, color.
-        function self = setParameters(self, parameters)
-            self.plotCount = self.plotCount + 1;
-            self.currentDescription = parameters.description;
-            self.currentColor = parameters.color;
-            
-            self.descriptionArray(self.plotCount) = self.currentDescription;
-            self.colorArray(self.plotCount) = self.currentColor;
         end
     end
 end
