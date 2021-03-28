@@ -1,5 +1,9 @@
 classdef TrustRegConicSearch < TrustRegSearch
     
+    properties
+        alpha;
+    end
+    
     methods
         % func - AbstractFunction extended object
         % options structures:
@@ -8,11 +12,13 @@ classdef TrustRegConicSearch < TrustRegSearch
         % - options.shouldDrawPlots true - plot draws, false - dont
         % - options.trajectoryPlot trajectoryPlot object
         % - options.plotColor WARNING: only one letter color e.g.: b,r,g..
+        % - options.alpha alpha coefficient for conic optimization. alpha: [0,1)
         function self = TrustRegConicSearch(funcClass, options)
             self = self@TrustRegSearch(funcClass, options);
             self.delta = 1;
             self.deltamax = 1;
             self.eta = 0.1;
+            self.alpha = options.alpha;
         end
         
         function self = optimizationStep(self)
@@ -80,6 +86,13 @@ classdef TrustRegConicSearch < TrustRegSearch
             self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
             self.deltas(self.iteration) = self.delta;
             
+            % methods:
+            % Нестеров ускоренного градиента
+            % градиент
+            % heavy ball
+            
+            % func
+            % On website. 10 func is ok.
             h = TrustRegConicSearch.findH(self.x0, xOld, self.objectiveFunc);
             
             mod = @(s)(f0 + (g0' * s)/(1 - h'*s) + (s'*H0*s)/(1 - h'*s)^2); %model от s
@@ -148,7 +161,7 @@ classdef TrustRegConicSearch < TrustRegSearch
         
         
         function outputArg = findH(x0, x1, abstractFunction)
-            s1 = x1 - x0;
+            s1 = x1 - x0; 
             a = abstractFunction.f(x0) - abstractFunction.f(x1);
             b = abstractFunction.df(x0)' * s1;
             c = 0.5 * s1' * abstractFunction.hesF(x0) * s1;

@@ -1,5 +1,5 @@
-him = AbstractFunction(@f_himmelblau, @df_himmelblau, @hes_himmelblau);
-plotSleepTime = 0.1;
+him = AbstractFunction(@f_beale, @df_beale, @hes_beale);
+plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);
 
@@ -12,6 +12,7 @@ options.plotColor = 'r';
 
 x0 = [1;3];
 
+options.alpha = 0.5;
 trs = TrustRegConicSearch(him, options);
 [coordinates, funValues, funNevals] = trs.optimization(x0);
 

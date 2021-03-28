@@ -29,7 +29,7 @@ classdef TrustRegionDeltaPlot < TraectoryPlot
                 r=deltas(i + 1);
                 line([x0(1) x1(1)],[x0(2) x1(2)],'LineWidth',1,'Color', self.currentColor,'Marker', 's');
                 rectangle('Position',[x1(1)-r,x1(2)-r,2*r,2*r],'Curvature',[1 1],'FaceColor',[color, 0.1],'EdgeColor','none')
-                pause(0.20);
+                pause(self.sleepTime);
             end
              
             % draws red dot when optimization finished
