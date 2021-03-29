@@ -86,13 +86,6 @@ classdef TrustRegConicSearch < TrustRegSearch
             self.functionNevals(self.iteration) = self.objectiveFunc.evaluationCount;
             self.deltas(self.iteration) = self.delta;
             
-            % methods:
-            % Нестеров ускоренного градиента
-            % градиент
-            % heavy ball
-            
-            % func
-            % On website. 10 func is ok.
             h = TrustRegConicSearch.findH(self.x0, xOld, self.objectiveFunc);
             
             mod = @(s)(f0 + (g0' * s)/(1 - h'*s) + (s'*H0*s)/(1 - h'*s)^2); %model от s

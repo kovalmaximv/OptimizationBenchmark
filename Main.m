@@ -1,4 +1,4 @@
-him = AbstractFunction(@f_beale, @df_beale, @hes_beale);
+him = AbstractFunction(@f_bohachevsky1, @df_bohachevsky1, @hes_bohachevsky1);
 plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);
