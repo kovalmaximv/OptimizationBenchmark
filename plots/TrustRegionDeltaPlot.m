@@ -12,6 +12,7 @@ classdef TrustRegionDeltaPlot < TraectoryPlot
             self.rectangleAlpha = rectangleAlpha;
         end
         
+        
         function draw(self, coordinates, deltas)
             % draws first blue point of traectory
             figure(1);

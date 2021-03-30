@@ -20,5 +20,9 @@ options.plotColor = 'b';
 trs = TrustRegSearch(him, options);
 [coordinates1, funValues1, funNevals1] = trs.optimization(x0);
 
+options.plotColor = 'g';
+trs = FastGradient(him, @goldensectionsearch, options);
+[coordinates2, funValues2, funNevals2] = trs.optimization(x0);
+
 trajectoryPlot.drawLegend();
 convergancePlot.drawLegend(); 

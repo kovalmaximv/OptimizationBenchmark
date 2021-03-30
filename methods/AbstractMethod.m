@@ -44,6 +44,7 @@ classdef AbstractMethod < handle
         
         % x0 - starting point
         function [coordinates, functionValues, functionNevals] = optimization(self, x0)
+            self.objectiveFunc.clearEvalCount();
             self.x0 = x0;
             self = self.optimizationInit();
             

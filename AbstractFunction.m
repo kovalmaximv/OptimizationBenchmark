@@ -32,6 +32,11 @@ classdef AbstractFunction < handle
         function outputArg = hesF(self, inputArg)
             outputArg = feval(self.objectiveFunctionHes, inputArg);
         end
+        
+        function clearEvalCount(self)
+            self.evaluationCount = 0;
+            self.storedEvaluationCount = 0;
+        end
     end
 end
 
