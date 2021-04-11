@@ -1,10 +1,10 @@
-him = AbstractFunction(@f_bohachevsky1, @df_bohachevsky1, @hes_bohachevsky1);
+him = AbstractFunction(@f_matyas, @df_matyas, @hes_matyas);
 plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);
 
 options.iterationMax = 10000;
-options.tol = 1e-3;
+options.tol = 1e-4;
 options.shouldDrawPlots = true;
 options.trajectoryPlot = trajectoryPlot;
 options.convergancePlot = convergancePlot;
