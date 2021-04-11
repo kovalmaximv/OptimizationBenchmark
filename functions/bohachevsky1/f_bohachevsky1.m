@@ -1,4 +1,5 @@
 function v = f_bohachevsky1(X)
+% fmin = 0
 % INPUT:
 %   xx = [x1, x2]
 % GLOBAL MINIMUM: 

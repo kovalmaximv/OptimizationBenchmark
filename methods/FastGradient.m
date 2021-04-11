@@ -57,7 +57,7 @@ classdef FastGradient < AbstractMethod
             self.trajectoryPlot.draw(self.coordinates, deltas);
 
             self.convergancePlot.initiate(options);
-            self.convergancePlot.draw(self.functionNevals, self.functionValues);
+            self.convergancePlot.draw(self.objectiveFunc.realMin, self.functionNevals, self.functionValues);
         end
     end
 end

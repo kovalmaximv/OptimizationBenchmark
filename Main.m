@@ -1,4 +1,4 @@
-him = AbstractFunction(@f_matyas, @df_matyas, @hes_matyas);
+him = AbstractFunction(-1.0317, @f_sixHumpCamel, @df_sixHumpCamel, @hes_sixHumpCamel);
 plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);

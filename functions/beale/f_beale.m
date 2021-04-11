@@ -1,4 +1,5 @@
 function v = f_beale(xx)
+% fmin = 0
 % INPUT:
 %   xx = [x1, x2]
 % Global minimum:

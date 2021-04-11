@@ -1,4 +1,5 @@
 function v = f_himmelblau(X)
+% fmin = 0
 % F_HIMMELBLAU is a Himmelblau function
 % 	v = F_HIMMELBLAU(X)
 %	INPUT ARGUMENTS:
