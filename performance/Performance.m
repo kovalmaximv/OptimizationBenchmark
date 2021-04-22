@@ -21,25 +21,13 @@ for i = 1 : length(functions)
     x0 = [1;3];
     
     trcs = TrustRegConicSearch(func, options);
-    [~, ~, funNevals] = trcs.optimization(x0);
-    performance.keepConvergance(funNevals);
-    if i == 1
-        performance.initiateMethod('TrustRegConicSearch')
-    end
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegConicSearch', performance, trcs);
     
     trs = TrustRegSearch(func, options);
-    [~, ~, funNevals] = trs.optimization(x0);
-    performance.keepConvergance(funNevals);
-    if i == 1
-        performance.initiateMethod('TrustRegSearch')
-    end
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegSearch', performance, trs);
     
     fgs = FastGradient(func, @goldensectionsearch, options);
-    [~, ~, funNevals] = fgs.optimization(x0);
-    performance.keepConvergance(funNevals);
-    if i == 1
-        performance.initiateMethod('FastGradient')
-    end
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'FastGradient', performance, fgs);
 end
 
 

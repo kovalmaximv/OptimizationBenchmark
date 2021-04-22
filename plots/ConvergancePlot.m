@@ -11,8 +11,8 @@ classdef ConvergancePlot < AbstractPlot
             % initialization of plot
             figure(2);
             hold on
-            xlabel('$x$','interpreter','latex','FontSize',13);
-            ylabel('$y$','interpreter','latex','FontSize',13);
+            xlabel('$Number of Function Evaluations$','interpreter','latex','FontSize',13);
+            ylabel('$Best Function Value Found$','interpreter','latex','FontSize',13);
         end
         
         function draw(self, realMin, evals, fValues)
