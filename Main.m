@@ -1,4 +1,4 @@
-him = AbstractFunction(-1.0317, @f_sixHumpCamel, @df_sixHumpCamel, @hes_sixHumpCamel);
+him = AbstractFunction('himmelblau', 0, @f_bohachevsky1, @df_bohachevsky1, @hes_bohachevsky1);
 plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);
@@ -17,12 +17,12 @@ trs = TrustRegConicSearch(him, options);
 [coordinates, funValues, funNevals] = trs.optimization(x0);
 
 options.plotColor = 'b';
-trs = TrustRegSearch(him, options);
-[coordinates1, funValues1, funNevals1] = trs.optimization(x0);
+trs1 = TrustRegSearch(him, options);
+[coordinates1, funValues1, funNevals1] = trs1.optimization(x0);
 
 options.plotColor = 'g';
-trs = FastGradient(him, @goldensectionsearch, options);
-[coordinates2, funValues2, funNevals2] = trs.optimization(x0);
+trs2 = FastGradient(him, @goldensectionsearch, options);
+[coordinates2, funValues2, funNevals2] = trs2.optimization(x0);
 
 trajectoryPlot.drawLegend();
 convergancePlot.drawLegend(); 

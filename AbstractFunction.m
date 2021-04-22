@@ -2,6 +2,7 @@ classdef AbstractFunction < handle
     %ABSTRACTFUNCTION Summary of this class goes here
     
     properties
+        funcName,
         realMin,
         objectiveFunction,
         objectiveDerFunction,
@@ -10,8 +11,9 @@ classdef AbstractFunction < handle
     end
     
     methods
-        function self = AbstractFunction(realMin, objectiveFunction, objectiveDerFunction, hessian)
+        function self = AbstractFunction(funcName, realMin, objectiveFunction, objectiveDerFunction, hessian)
             %ABSTRACTFUNCTION Construct an instance of this class
+            self.funcName = funcName;
             self.realMin = realMin;
             self.objectiveFunction = objectiveFunction;
             self.objectiveDerFunction = objectiveDerFunction;

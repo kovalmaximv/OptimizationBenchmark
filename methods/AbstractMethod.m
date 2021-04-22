@@ -38,8 +38,10 @@ classdef AbstractMethod < handle
             self.dx = realmax;
             self.shouldDrawPlots = options.shouldDrawPlots;
             self.plotColor = options.plotColor;
-            self.trajectoryPlot = options.trajectoryPlot;
-            self.convergancePlot = options.convergancePlot;
+            if (self.shouldDrawPlots == true)
+                self.trajectoryPlot = options.trajectoryPlot;
+                self.convergancePlot = options.convergancePlot;
+            end
         end
         
         % x0 - starting point
@@ -49,7 +51,14 @@ classdef AbstractMethod < handle
             self = self.optimizationInit();
             
             while(self.optimizationLoopCondition())
-                self = self.optimizationStep();
+                try 
+                    self = self.optimizationStep();
+                catch
+                    coordinates = -1; 
+                    functionValues = -1;
+                    functionNevals = -1;
+                    return
+                end
             end
             
             [coordinates, functionValues, functionNevals] = self.optimizationResult();

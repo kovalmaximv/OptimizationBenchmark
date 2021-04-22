@@ -100,7 +100,14 @@ classdef TrustRegSearch < AbstractMethod
         function pmin = doglegsearch(mod,g0,B0,Delta,tol)
         %dogleg local search
         pU = -g0'*g0/(g0'*B0*g0)*g0;
+        
+        warning('') % Clear last warning message
         pB = - B0^-1*g0;
+        [warnMsg, ~] = lastwarn;
+        if ~isempty(warnMsg)
+            error('Matrix is close to singular: %s', warnMsg);
+        end
+        
         al = goldensectionsearch( @(al)( mod(al*pB)), [-Delta/norm(pB),Delta/norm(pB)] , tol);
         pB = al*pB;
         tau = goldensectionsearch(@(tau) ...
