@@ -11,7 +11,7 @@ classdef FastGradient < AbstractMethod
             % call superclass constructor
             self = self@AbstractMethod(func, options);
             self.onedimsearch = onedimsearch;
-            self.interval = [-1; 1];
+            self.interval = [-3; 3];
         end
         
         function outputArg = optimizationLoopCondition(self)

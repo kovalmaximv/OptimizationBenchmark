@@ -24,5 +24,9 @@ options.plotColor = 'g';
 trs2 = FastGradient(him, @goldensectionsearch, options);
 [coordinates2, funValues2, funNevals2] = trs2.optimization(x0);
 
+options.plotColor = 'c';
+pr = PolakRibiere(him, @goldensectionsearch, options);
+[coordinates3, funValues3, funNevals3] = pr.optimization(x0);
+
 trajectoryPlot.drawLegend();
 convergancePlot.drawLegend(); 

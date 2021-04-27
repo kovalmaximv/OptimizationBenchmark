@@ -28,6 +28,9 @@ for i = 1 : length(functions)
     
     fgs = FastGradient(func, @goldensectionsearch, options);
     PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'FastGradient', performance, fgs);
+    
+    pr = PolakRibiere(him, @goldensectionsearch, options);
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'PolakRibier', performance, pr);
 end
 
 
