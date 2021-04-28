@@ -1,4 +1,4 @@
-him = AbstractFunction('himmelblau', 0, @f_bohachevsky1, @df_bohachevsky1, @hes_bohachevsky1);
+him = AbstractFunction('himmelblau', 0, @f_himmelblau, @df_himmelblau, @hes_himmelblau);
 plotSleepTime = 0;
 trajectoryPlot = TrustRegionDeltaPlot(plotSleepTime, 0.8);
 convergancePlot = ConvergancePlot(plotSleepTime);
@@ -27,6 +27,10 @@ trs2 = FastGradient(him, @goldensectionsearch, options);
 options.plotColor = 'c';
 pr = PolakRibiere(him, @goldensectionsearch, options);
 [coordinates3, funValues3, funNevals3] = pr.optimization(x0);
+
+options.plotColor = 'y';
+lfbgs = LBFGS(him, options);
+[coordinates4, funValues4, funNevals4] = lfbgs.optimization(x0);
 
 trajectoryPlot.drawLegend();
 convergancePlot.drawLegend(); 

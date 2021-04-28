@@ -19,7 +19,7 @@ classdef PerformancePlot < AbstractPlot
         end
         
         function calculateRps(self)
-            for iter = 1 : length(self.tps)
+            for iter = 1 : length(self.tps(:, 1))
                 minTps = min(self.tps(iter, :));
                 for jter = 1 : length(self.tps(iter, :))
                     if self.tps(iter, jter) ~= -1

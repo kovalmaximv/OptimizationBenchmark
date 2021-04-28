@@ -53,7 +53,9 @@ classdef AbstractMethod < handle
             while(self.optimizationLoopCondition())
                 try 
                     self = self.optimizationStep();
-                catch
+                catch ME
+                    disp('Error Message:')
+                    disp(ME.message)
                     coordinates = -1; 
                     functionValues = -1;
                     functionNevals = -1;
