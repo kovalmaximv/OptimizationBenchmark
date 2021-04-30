@@ -20,8 +20,14 @@ for i = 1 : length(functions)
     
     x0 = [1;3];
     
-    trcs = TrustRegConicSearch(func, options);
-    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegConicSearch', performance, trcs);
+    trcs1 = TrustRegConicSearch(func, 0.1, options);
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegConicSearch, eta: 0.1', performance, trcs1);
+    
+    trcs5 = TrustRegConicSearch(func, 0.5, options);
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegConicSearch, eta: 0.5', performance, trcs5);
+    
+    trcs55 = TrustRegConicSearch(func, 0.55, options);
+    PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegConicSearch, eta: 0.55', performance, trcs55);
     
     trs = TrustRegSearch(func, options);
     PerformanceUtil.optimizeAndKeepConvergence(i, x0, 'TrustRegSearch', performance, trs);

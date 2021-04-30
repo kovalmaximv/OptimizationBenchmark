@@ -13,11 +13,11 @@ classdef TrustRegConicSearch < TrustRegSearch
         % - options.trajectoryPlot trajectoryPlot object
         % - options.plotColor WARNING: only one letter color e.g.: b,r,g..
         % - options.alpha alpha coefficient for conic optimization. alpha: [0,1)
-        function self = TrustRegConicSearch(funcClass, options)
+        function self = TrustRegConicSearch(funcClass, eta, options)
             self = self@TrustRegSearch(funcClass, options);
             self.delta = 1;
             self.deltamax = 1;
-            self.eta = 0.1;
+            self.eta = eta;
             self.alpha = options.alpha;
         end
         
@@ -118,7 +118,8 @@ classdef TrustRegConicSearch < TrustRegSearch
         
         
         function drawPlots(self)
-            options.description = strcat('TrustRegionConic,', num2str(self.iteration - 1), ' iterations');
+            options.description = strcat('TrustRegionConic, eta: ', num2str(self.eta), ', ', ...
+                num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, self.deltas);

@@ -50,6 +50,7 @@ classdef FastGradient < AbstractMethod
         end
         
         function drawPlots(self)
+            pause(1);
             options.description = strcat('FastGradient,', num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             deltas = zeros(1, length(self.coordinates));

@@ -63,12 +63,13 @@ classdef PolakRibiere < AbstractMethod
         end
         
         function drawPlots(self)
+            pause(1);
             options.description = strcat('PolakRibier,', num2str(self.iteration - 1), ' iterations');
             options.color = self.plotColor;
             deltas = zeros(1, length(self.coordinates));
             self.trajectoryPlot.initiate(self.objectiveFunc, options);
             self.trajectoryPlot.draw(self.coordinates, deltas);
-
+            
             self.convergancePlot.initiate(options);
             self.convergancePlot.draw(self.objectiveFunc.realMin, self.functionNevals, self.functionValues);
         end
